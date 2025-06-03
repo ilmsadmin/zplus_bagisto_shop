@@ -30,3 +30,5 @@ yarn.lock
 yarn-error.log
 /test-results
 /playwright-report
+# macOS specific files
+.DS_Store
