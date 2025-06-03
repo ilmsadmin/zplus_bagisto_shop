@@ -1,0 +1,72 @@
+{
+  "name": "bagisto-ecommerce-system",
+  "version": "1.0.0",
+  "description": "Complete e-commerce system with Bagisto Laravel backend, Next.js frontend, and Flutter mobile app",  "scripts": {
+    "setup": "pwsh ./setup-database.ps1",
+    "start": "pwsh ./start-all.ps1",
+    "git:init": "pwsh ./init-git.ps1",
+    "start:backend": "cd backend-bagisto && php artisan serve --port=8000",
+    "start:frontend": "cd frontend-nextjs && npm run dev",
+    "start:mobile": "cd mobile-app && flutter run",
+    "build:frontend": "cd frontend-nextjs && npm run build",
+    "build:mobile": "cd mobile-app && flutter build apk --release",
+    "install:all": "npm run install:backend && npm run install:frontend && npm run install:mobile",
+    "install:backend": "cd backend-bagisto && composer install && npm install",
+    "install:frontend": "cd frontend-nextjs && npm install --omit=optional",
+    "install:mobile": "cd mobile-app && flutter pub get",
+    "test:backend": "cd backend-bagisto && php artisan test",
+    "test:frontend": "cd frontend-nextjs && npm run test",
+    "test:mobile": "cd mobile-app && flutter test",
+    "clean": "npm run clean:backend && npm run clean:frontend && npm run clean:mobile",
+    "clean:backend": "cd backend-bagisto && php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear",
+    "clean:frontend": "cd frontend-nextjs && rm -rf .next && rm -rf node_modules/.cache",
+    "clean:mobile": "cd mobile-app && flutter clean"
+  },
+  "keywords": [
+    "ecommerce",
+    "bagisto",
+    "laravel",
+    "nextjs",
+    "flutter",
+    "fullstack",
+    "headless-commerce"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "php": ">=8.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "your-repository-url"
+  },
+  "bugs": {
+    "url": "your-repository-url/issues"
+  },
+  "homepage": "your-repository-url#readme",
+  "devDependencies": {},
+  "dependencies": {},
+  "workspaces": [
+    "frontend-nextjs"
+  ],
+  "architecture": {
+    "backend": {
+      "framework": "Bagisto Laravel",
+      "language": "PHP",
+      "database": "MySQL",
+      "port": 8000
+    },
+    "frontend": {
+      "framework": "Next.js",
+      "language": "TypeScript",
+      "styling": "Tailwind CSS",
+      "port": 3000
+    },
+    "mobile": {
+      "framework": "Flutter",
+      "language": "Dart",
+      "platforms": ["iOS", "Android", "Web", "Desktop"]
+    }
+  }
+}
