@@ -53,5 +53,10 @@ class ViPOSServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/vipos.php',
             'vipos'
         );
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/menu.php',
+            'menu.admin'
+        );
     }
 }

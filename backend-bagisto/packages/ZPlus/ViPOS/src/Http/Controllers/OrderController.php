@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Product\Repositories\ProductRepository;
+use ZPlus\ViPOS\Repositories\ViPOSSessionRepository;
 
 class OrderController extends Controller
 {
@@ -15,7 +16,8 @@ class OrderController extends Controller
     public function __construct(
         protected OrderRepository $orderRepository,
         protected CustomerRepository $customerRepository,
-        protected ProductRepository $productRepository
+        protected ProductRepository $productRepository,
+        protected ViPOSSessionRepository $sessionRepository
     ) {}
 
     /**
@@ -35,6 +37,14 @@ class OrderController extends Controller
         ]);
 
         try {
+            // Check if there's an open session
+            $currentSession = $this->sessionRepository->getCurrentSession(auth()->guard('admin')->id());
+            if (!$currentSession) {
+                return response()->json([
+                    'error' => 'No open POS session. Please start a session first.',
+                ], 400);
+            }
+
             $customer = $this->customerRepository->find($request->customer_id);
             
             // Calculate totals
@@ -43,7 +53,7 @@ class OrderController extends Controller
                 $subtotal += $item['price'] * $item['quantity'];
             }
             
-            $taxAmount = $subtotal * (config('vipos.tax.default_rate') / 100);
+            $taxAmount = $subtotal * (config('vipos.tax.default_rate', 0) / 100);
             $grandTotal = $subtotal + $taxAmount;
 
             // Create order data
@@ -86,6 +96,9 @@ class OrderController extends Controller
 
             // Create the order
             $order = $this->orderRepository->create($orderData);
+
+            // Update session totals
+            $this->sessionRepository->updateSalesTotals($currentSession->id, $grandTotal);
 
             return response()->json([
                 'data' => $order,
