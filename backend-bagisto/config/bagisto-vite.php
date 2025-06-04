@@ -28,5 +28,11 @@ return [
             'build_directory'          => 'themes/installer/default/build',
             'package_assets_directory' => 'src/Resources/assets',
         ],
+
+        'vipos' => [
+            'hot_file'                 => 'vipos-vite.hot',
+            'build_directory'          => 'themes/vipos/build',
+            'package_assets_directory' => 'src/Resources/assets',
+        ],
     ],
 ];
