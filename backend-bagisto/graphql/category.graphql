@@ -1,0 +1,53 @@
+type Category {
+    id: ID!
+    name: String!
+    description: String
+    slug: String!
+    urlPath: String
+    position: Int
+    status: Int!
+    displayMode: String
+    logoPath: String
+    logoUrl: String
+    bannerPath: String
+    bannerUrl: String
+    metaTitle: String
+    metaDescription: String
+    metaKeywords: String
+    parentId: ID
+    lft: Int
+    rgt: Int
+    localeId: ID
+    additional: String
+    createdAt: DateTime
+    updatedAt: DateTime
+    
+    # Relationships
+    parent: Category
+    children: [Category!]!
+    filterableAttributes: [FilterableAttribute!]!
+    products(first: Int = 10, page: Int = 1): ProductConnection
+}
+
+type CategoryConnection {
+    edges: [CategoryEdge!]!
+    pageInfo: PageInfo!
+}
+
+type CategoryEdge {
+    node: Category!
+    cursor: String!
+}
+
+type FilterableAttribute {
+    id: ID!
+    adminName: String!
+    code: String!
+    type: String!
+    position: Int
+}
+
+input FilterInput {
+    key: String!
+    value: String!
+}
