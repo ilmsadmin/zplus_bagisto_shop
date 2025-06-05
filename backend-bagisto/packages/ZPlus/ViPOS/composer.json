@@ -1,0 +1,26 @@
+{
+    "name": "zplus/vipos",
+    "license": "MIT",
+    "description": "ViPOS - Virtual Point of Sale system fully integrated with Bagisto e-commerce platform",
+    "authors": [
+        {
+            "name": "ZPlus",
+            "email": "support@zplus.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ZPlus\\ViPOS\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ZPlus\\ViPOS\\Providers\\ViPOSServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "minimum-stability": "dev"
+}
