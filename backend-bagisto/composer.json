@@ -37,6 +37,7 @@
         "maatwebsite/excel": "^3.1.46",
         "mpdf/mpdf": "^8.2",
         "nesbot/carbon": "^2.72.2",
+        "nuwave/lighthouse": "*",
         "openai-php/laravel": "^0.10.1",
         "paypal/paypal-checkout-sdk": "1.0.1",
         "predis/predis": "^2.2",
@@ -44,8 +45,7 @@
         "pusher/pusher-php-server": "^7.0",
         "shetabit/visitor": "^4.1",
         "spatie/laravel-responsecache": "^7.4",
-        "spatie/laravel-sitemap": "^7.3",
-        "nuwave/lighthouse": "^6.0"
+        "spatie/laravel-sitemap": "^7.3"
     },
     "require-dev": {
         "bagisto/laravel-datafaker": "2.2.*",
