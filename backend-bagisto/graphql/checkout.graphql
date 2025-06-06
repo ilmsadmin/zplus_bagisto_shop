@@ -1,0 +1,55 @@
+# Checkout related types and inputs
+
+input ShippingAddressInput {
+    firstName: String!
+    lastName: String!
+    companyName: String
+    address1: String!
+    address2: String
+    country: String!
+    state: String!
+    city: String!
+    postcode: String!
+    phone: String
+    email: String
+    useForShipping: Boolean = true
+}
+
+input ShippingMethodInput {
+    shippingMethod: String!
+}
+
+input PaymentMethodInput {
+    method: String!
+    methodTitle: String
+    additional: String
+}
+
+type ShippingAddressResponse {
+    success: Boolean!
+    message: String
+    cart: Cart
+    jumpToSection: String
+}
+
+type ShippingMethodResponse {
+    success: Boolean!
+    message: String
+    cart: Cart
+    jumpToSection: String
+}
+
+type PaymentMethodResponse {
+    success: Boolean!
+    message: String
+    cart: Cart
+    jumpToSection: String
+}
+
+type PlaceOrderResponse {
+    success: Boolean!
+    message: String
+    redirectUrl: String
+    selectedMethod: String
+    order: Order
+}

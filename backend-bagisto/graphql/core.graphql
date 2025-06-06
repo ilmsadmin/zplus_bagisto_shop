@@ -1,0 +1,135 @@
+type Image {
+    id: ID!
+    path: String!
+    url: String!
+    productId: ID
+    altText: String
+    width: Int
+    height: Int
+}
+
+type ImageConnection {
+    edges: [ImageEdge!]!
+}
+
+type ImageEdge {
+    node: Image!
+}
+
+type SEO {
+    title: String
+    description: String
+    keywords: String
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+type Country {
+    id: ID!
+    code: String!
+    name: String!
+    states: [State!]!
+}
+
+type State {
+    id: ID!
+    code: String!
+    name: String!
+    countryId: ID!
+    country: Country!
+}
+
+type PaymentMethod {
+    method: String!
+    methodTitle: String!
+    description: String
+    sort: Int
+    image: String
+}
+
+type ShippingMethod {
+    method: String!
+    methodTitle: String!
+    description: String
+    amount: Float!
+    baseAmount: Float!
+}
+
+type Page {
+    id: ID!
+    layout: String
+    content: String!
+    metaDescription: String
+    metaKeywords: String
+    metaTitle: String
+    pageTitle: String!
+    urlKey: String!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type ThemeCustomization {
+    id: ID!
+    channelId: ID!
+    type: String!
+    name: String!
+    sortOrder: Int!
+    status: Boolean!
+    theme: String!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+# Channels
+type Channel {
+    id: ID!
+    code: String!
+    name: String!
+    description: String
+    timezone: String
+    theme: String
+    hostname: String
+    defaultLocaleId: ID!
+    baseCurrencyId: ID!
+    rootCategoryId: ID!
+    logoUrl: String
+    faviconUrl: String
+    isMaintenanceModeOn: Boolean!
+    allowedIps: String
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+# Currency
+type Currency {
+    id: ID!
+    code: String!
+    name: String!
+    symbol: String
+    decimalPlaces: Int!
+}
+
+# Locale
+type Locale {
+    id: ID!
+    code: String!
+    name: String!
+    image: String
+    direction: String!
+}
+
+# Menu
+type Menu {
+    id: ID!
+    name: String!
+    url: String!
+    target: String
+    sortOrder: Int!
+    status: Boolean!
+    children: [Menu!]!
+}

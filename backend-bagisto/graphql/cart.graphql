@@ -1,0 +1,159 @@
+type Cart {
+    id: ID!
+    customerEmail: String
+    customerFirstName: String
+    customerLastName: String
+    shippingMethod: String
+    couponCode: String
+    isGuest: Boolean!
+    itemsCount: Int!
+    itemsQty: Int!
+    exchangeRate: Float
+    globalCurrencyCode: String
+    baseCurrencyCode: String
+    channelCurrencyCode: String
+    cartCurrencyCode: String
+    grandTotal: Float!
+    baseGrandTotal: Float!
+    subTotal: Float!
+    baseSubTotal: Float!
+    taxTotal: Float!
+    baseTaxTotal: Float!
+    discountAmount: Float!
+    baseDiscountAmount: Float!
+    checkoutMethod: String
+    isGuest: Boolean!
+    isActive: Boolean!
+    conversionTime: DateTime
+    customerId: ID
+    channelId: ID!
+    appliedCartRuleIds: String
+    createdAt: DateTime
+    updatedAt: DateTime
+    
+    # Cart items
+    items: [CartItem!]!
+    
+    # Shipping address
+    shippingAddress: CartAddress
+    billingAddress: CartAddress
+    
+    # Applied coupons
+    selectedShippingRate: ShippingRate
+    payment: Payment
+}
+
+type CartItem {
+    id: ID!
+    quantity: Int!
+    sku: String!
+    type: String!
+    name: String!
+    couponCode: String
+    weight: Float!
+    totalWeight: Float!
+    baseTotalWeight: Float!
+    price: Float!
+    basePrice: Float!
+    total: Float!
+    baseTotal: Float!
+    taxPercent: Float!
+    taxAmount: Float!
+    baseTaxAmount: Float!
+    discountPercent: Float!
+    discountAmount: Float!
+    baseDiscountAmount: Float!
+    additional: String
+    parentId: ID
+    productId: ID!
+    cartId: ID!
+    taxCategoryId: ID
+    customPrice: Float
+    appliedCartRuleIds: String
+    createdAt: DateTime
+    updatedAt: DateTime
+    
+    # Product relationship
+    product: Product!
+    
+    # Child items (for bundle/configurable products)
+    children: [CartItem!]!
+}
+
+type CartAddress {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    gender: String
+    companyName: String
+    address1: String!
+    address2: String
+    postcode: String!
+    city: String!
+    state: String!
+    country: String!
+    email: String
+    phone: String
+    vatId: String
+    defaultAddress: Boolean
+    cartId: ID
+    customerId: ID
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type ShippingRate {
+    carrier: String!
+    carrierTitle: String!
+    method: String!
+    methodTitle: String!
+    methodDescription: String
+    price: Float!
+    basePrice: Float!
+}
+
+type Payment {
+    id: ID!
+    method: String!
+    methodTitle: String!
+    cartId: ID!
+}
+
+# Input types for mutations
+input AddToCartInput {
+    productId: ID!
+    quantity: Int!
+    options: String
+}
+
+input UpdateCartItemsInput {
+    items: [UpdateCartItemInput!]!
+}
+
+input UpdateCartItemInput {
+    cartItemId: ID!
+    quantity: Int!
+}
+
+input RemoveFromCartInput {
+    cartItemId: ID!
+}
+
+# Response types
+type AddToCartResponse {
+    success: Boolean!
+    message: String
+    cart: Cart
+}
+
+type UpdateCartItemsResponse {
+    success: Boolean!
+    message: String
+    cart: Cart
+}
+
+type RemoveFromCartResponse {
+    success: Boolean!
+    message: String
+    cart: Cart
+}

@@ -1,0 +1,390 @@
+enum ProductSortKeys {
+    CREATED_AT
+    UPDATED_AT
+    TITLE
+    PRICE
+    NAME
+}
+
+type Product {
+    id: ID!
+    name: String!
+    title: String
+    handle: String
+    urlKey: String
+    type: String
+    description: String
+    descriptionHtml: String
+    shortDescription: String
+    sku: String
+    weight: Float
+    status: Int
+    isSaleable: Boolean
+    availableForSale: Boolean
+    isInWishlist: Boolean
+    metaTitle: String
+    metaDescription: String
+    metaKeywords: String
+    attributeFamilyId: ID
+    parentId: ID
+    createdAt: DateTime
+    updatedAt: DateTime
+    
+    # Price information
+    priceRange: ProductPriceRange
+    priceHtml: ProductPriceHtml
+    
+    # Product options/variants
+    options: [ProductOption!]!
+    variants(first: Int = 250): ProductVariantConnection
+    superAttributes: [SuperAttribute!]!
+    
+    # Images and media
+    featuredImage: Image
+    images(first: Int = 20): ImageConnection
+    videos: [ProductVideo!]!
+    
+    # Categories and attributes
+    categories: [Category!]!
+    attributeFamily: AttributeFamily
+    attributeValues: [AttributeValue!]!
+    additionalData: [AttributeValue!]!
+    
+    # Inventory
+    inventories: [ProductInventory!]!
+    orderedInventories: [OrderedInventory!]!
+    
+    # Related products
+    relatedProducts: [Product!]!
+    upSellProducts: [Product!]!
+    crossSellProducts: [Product!]!
+    
+    # Product type specific
+    groupedProducts: [GroupedProduct!]!
+    bundleOptions: [BundleOption!]!
+    downloadableSamples: [DownloadableSample!]!
+    downloadableLinks: [DownloadableLink!]!
+    configutableData: ConfigurableData
+    customerGroupPrices: [CustomerGroupPrice!]!
+    
+    # SEO
+    seo: SEO
+    tags: [String!]!
+}
+
+type ProductConnection {
+    edges: [ProductEdge!]!
+    pageInfo: PageInfo!
+}
+
+type ProductEdge {
+    node: Product!
+    cursor: String!
+}
+
+type ProductPriceRange {
+    minVariantPrice: Money!
+    maxVariantPrice: Money!
+}
+
+type ProductPriceHtml {
+    id: ID!
+    type: String
+    priceHtml: String
+    priceWithoutHtml: String
+    minPrice: Float
+    regularPrice: Float
+    formattedRegularPrice: String
+    finalPrice: Float
+    formattedFinalPrice: String
+    currencyCode: String
+    bundlePrice: BundlePrice
+}
+
+type BundlePrice {
+    finalPriceFrom: Float
+    formattedFinalPriceFrom: String
+    regularPriceFrom: Float
+    formattedRegularPriceFrom: String
+    finalPriceTo: Float
+    formattedFinalPriceTo: String
+    regularPriceTo: Float
+    formattedRegularPriceTo: String
+}
+
+type ProductOption {
+    id: ID!
+    name: String!
+    values: [String!]!
+}
+
+type ProductVariantConnection {
+    edges: [ProductVariantEdge!]!
+}
+
+type ProductVariantEdge {
+    node: ProductVariant!
+}
+
+type ProductVariant {
+    id: ID!
+    title: String!
+    sku: String
+    availableForSale: Boolean!
+    price: Money!
+    selectedOptions: [SelectedOption!]!
+}
+
+type SelectedOption {
+    name: String!
+    value: String!
+}
+
+type Money {
+    amount: String!
+    currencyCode: String!
+}
+
+type SuperAttribute {
+    id: ID!
+    code: String!
+    adminName: String!
+    type: String!
+    position: Int
+}
+
+type AttributeFamily {
+    id: ID!
+    code: String!
+    name: String!
+    status: Int
+    isUserDefined: Boolean
+}
+
+type AttributeValue {
+    id: ID!
+    productId: ID!
+    attributeId: ID!
+    locale: String
+    channel: String
+    textValue: String
+    booleanValue: Boolean
+    integerValue: Int
+    floatValue: Float
+    dateTimeValue: DateTime
+    dateValue: Date
+    jsonValue: String
+    attribute: Attribute
+}
+
+type Attribute {
+    id: ID!
+    code: String!
+    adminName: String!
+    type: String!
+}
+
+type ProductInventory {
+    id: ID!
+    qty: Int!
+    productId: ID!
+    inventorySourceId: ID!
+    vendorId: ID
+    inventorySource: InventorySource
+}
+
+type InventorySource {
+    id: ID!
+    code: String!
+    name: String!
+    description: String
+    contactName: String
+    contactEmail: String
+    contactNumber: String
+    contactFax: String
+    country: String
+    state: String
+    city: String
+    street: String
+    postcode: String
+    priority: Int
+    latitude: Float
+    longitude: Float
+    status: Int
+}
+
+type OrderedInventory {
+    id: ID!
+    qty: Int!
+    productId: ID!
+    channelId: ID!
+}
+
+type GroupedProduct {
+    id: ID!
+    qty: Int!
+    sortOrder: Int
+    productId: ID!
+    associatedProductId: ID!
+    associatedProduct: Product
+}
+
+type BundleOption {
+    id: ID!
+    type: String!
+    isRequired: Boolean!
+    sortOrder: Int
+    productId: ID!
+    bundleOptionProducts: [BundleOptionProduct!]!
+    translations: [BundleOptionTranslation!]!
+}
+
+type BundleOptionProduct {
+    id: ID!
+    qty: Int!
+    isUserDefined: Boolean!
+    sortOrder: Int
+    isDefault: Boolean!
+    productBundleOptionId: ID!
+    productId: ID!
+    product: Product
+}
+
+type BundleOptionTranslation {
+    id: ID!
+    locale: String!
+    label: String!
+    productBundleOptionId: ID!
+}
+
+type DownloadableSample {
+    id: ID!
+    url: String
+    fileUrl: String
+    file: String
+    fileName: String
+    type: String
+    sortOrder: Int
+    productId: ID!
+    createdAt: DateTime
+    updatedAt: DateTime
+    translations: [DownloadableSampleTranslation!]!
+}
+
+type DownloadableSampleTranslation {
+    id: ID!
+    locale: String!
+    title: String!
+    productDownloadableSampleId: ID!
+}
+
+type DownloadableLink {
+    id: ID!
+    title: String!
+    price: Float
+    url: String
+    fileUrl: String
+    file: String
+    fileName: String
+    type: String
+    sampleUrl: String
+    sampleFile: String
+    sampleFileUrl: String
+    sampleFileName: String
+    sampleType: String
+    sortOrder: Int
+    productId: ID!
+    downloads: Int
+    translations: [DownloadableLinkTranslation!]!
+}
+
+type DownloadableLinkTranslation {
+    id: ID!
+    locale: String!
+    title: String!
+    productDownloadableLinkId: ID!
+}
+
+type ConfigurableData {
+    attributes: [ConfigurableAttribute!]!
+    index: [ConfigurableIndex!]!
+    variantPrices: [VariantPrice!]!
+    variantImages: [VariantImage!]!
+    variantVideos: [VariantVideo!]!
+    chooseText: String
+    regularPrice: VariantPriceItem
+}
+
+type ConfigurableAttribute {
+    id: ID!
+    code: String!
+    label: String!
+    swatchType: String
+    options: [ConfigurableAttributeOption!]!
+}
+
+type ConfigurableAttributeOption {
+    id: ID!
+    label: String!
+    swatchType: String
+    swatchValue: String
+    products: [ID!]!
+}
+
+type ConfigurableIndex {
+    id: ID!
+    attributeOptionIds: [AttributeOptionId!]!
+}
+
+type AttributeOptionId {
+    attributeId: ID!
+    attributeCode: String!
+    attributeOptionId: ID!
+}
+
+type VariantPrice {
+    id: ID!
+    regularPrice: VariantPriceItem!
+    finalPrice: VariantPriceItem!
+}
+
+type VariantPriceItem {
+    price: Float!
+    formatedPrice: String!
+}
+
+type VariantImage {
+    id: ID!
+    images: VariantImageSet!
+}
+
+type VariantImageSet {
+    smallImageUrl: String
+    mediumImageUrl: String
+    largeImageUrl: String
+    originalImageUrl: String
+}
+
+type VariantVideo {
+    id: ID!
+    videos: [String!]!
+}
+
+type CustomerGroupPrice {
+    id: ID!
+    qty: Int!
+    valueType: String!
+    value: Float!
+    productId: ID!
+    customerGroupId: ID!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type ProductVideo {
+    id: ID!
+    type: String!
+    path: String!
+    url: String!
+    productId: ID!
+}

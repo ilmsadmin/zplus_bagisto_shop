@@ -1,0 +1,59 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+type Query {
+    # Products
+    products(
+        first: Int = 10
+        page: Int = 1
+        sortKey: ProductSortKeys
+        reverse: Boolean = false
+        query: String
+    ): ProductConnection @paginate(defaultCount: 10)
+    
+    product(id: ID!, urlKey: String): Product @find
+    
+    # Categories
+    categories(first: Int = 10, page: Int = 1): CategoryConnection @paginate(defaultCount: 10)
+    homeCategories(input: [FilterInput!]): [Category!]! @field(resolver: "App\\GraphQL\\Queries\\HomeCategoriesQuery")
+    
+    # Cart
+    cart: Cart @field(resolver: "App\\GraphQL\\Queries\\CartQuery")
+    
+    # Customer
+    customer: Customer @auth @field(resolver: "App\\GraphQL\\Queries\\CustomerQuery")
+    
+    # Core data
+    countries: [Country!]! @field(resolver: "App\\GraphQL\\Queries\\CountriesQuery")
+    paymentMethods: [PaymentMethod!]! @field(resolver: "App\\GraphQL\\Queries\\PaymentMethodsQuery")
+    shippingMethods: [ShippingMethod!]! @field(resolver: "App\\GraphQL\\Queries\\ShippingMethodsQuery")
+}
+
+type Mutation {
+    # Authentication
+    customerLogin(input: CustomerLoginInput!): CustomerLoginResponse @field(resolver: "App\\GraphQL\\Mutations\\CustomerLoginMutation")
+    customerRegister(input: CustomerRegisterInput!): CustomerRegisterResponse @field(resolver: "App\\GraphQL\\Mutations\\CustomerRegisterMutation")
+    
+    # Cart operations
+    createCart: Cart @field(resolver: "App\\GraphQL\\Mutations\\CreateCartMutation")
+    addToCart(input: AddToCartInput!): AddToCartResponse @field(resolver: "App\\GraphQL\\Mutations\\AddToCartMutation")
+    updateCartItems(input: UpdateCartItemsInput!): UpdateCartItemsResponse @field(resolver: "App\\GraphQL\\Mutations\\UpdateCartItemsMutation")
+    removeFromCart(input: RemoveFromCartInput!): RemoveFromCartResponse @field(resolver: "App\\GraphQL\\Mutations\\RemoveFromCartMutation")
+    
+    # Checkout
+    saveShippingAddress(input: ShippingAddressInput!): ShippingAddressResponse @field(resolver: "App\\GraphQL\\Mutations\\SaveShippingAddressMutation")
+    saveShippingMethod(input: ShippingMethodInput!): ShippingMethodResponse @field(resolver: "App\\GraphQL\\Mutations\\SaveShippingMethodMutation")
+    savePaymentMethod(input: PaymentMethodInput!): PaymentMethodResponse @field(resolver: "App\\GraphQL\\Mutations\\SavePaymentMethodMutation")
+    placeOrder: PlaceOrderResponse @field(resolver: "App\\GraphQL\\Mutations\\PlaceOrderMutation")
+}
+
+# Import type definitions
+#import product.graphql
+#import category.graphql
+#import cart.graphql
+#import customer.graphql
+#import core.graphql
+#import checkout.graphql
